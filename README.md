@@ -1,2 +1,124 @@
-# Accurate-and-Interpretable-Postmenstrual-Age-Prediction
-In this work, we address the dual challenge of accuracy and interpretability by adapting a multimodal large language model to perform both precise PMA prediction and clinical-relevant explanation generation. We introduce a parameter-efficient fine-tuning strategy using Instruction Tuning and Low-Rank Adaptation applied to the Qwen2.5-VL-7B model. 
+
+# 🧠 Qwen2.5-VL for Gestational Age Prediction (dHCP)
+
+This repository contains code and workflows for **fine-tuning Qwen2.5-VL (7B)** to **predict gestational age (in days or weeks)** based on **neonatal brain MRI cortical feature projections**, using data from the [developing Human Connectome Project (dHCP)](http://www.developingconnectome.org/project/).
+
+## 🔬 Task Description
+
+We aim to **predict gestational age at the time of scan** from four 2D projected cortical feature maps extracted from neonatal brain MRIs:
+
+1. **Cortical Thickness**
+2. **Cortical Curvature**
+3. **Cortical Myelination**
+4. **Sulcal Depth**
+
+These maps are stacked into 4-channel inputs and provided to a multi-modal LLM (Qwen2.5-VL) for regression.
+
+---
+
+## 📊 Dataset
+
+- **Source**: Developing Human Connectome Project (dHCP)
+- **Inputs**: 2D cortical feature maps (240×320×4, `.npy` format)
+- **Labels**: Gestational Age at scan (in days or weeks)
+- **Metadata**: Provided via a `meta_2022_pma.pkl` DataFrame
+
+---
+
+## 🧩 Model
+
+- Base model: [`Qwen/Qwen2.5-VL-7B-Instruct`](https://huggingface.co/Qwen/Qwen2.5-VL-7B-Instruct)
+- Fine-tuning via: **LoRA (PEFT)** on selected vision + language layers
+- Fine-tuning strategy:
+  - Multi-image input using vision-aware prompt template
+  - Target: numerical regression output (e.g. "269.5")
+
+---
+
+## 🧪 Evaluation Metrics
+
+- **MSE** (Mean Squared Error)
+- **MAE** (Mean Absolute Error)
+- **R²** (Coefficient of Determination)
+- **95% Confidence Intervals** via Bootstrap Sampling
+
+Also includes **model explanation output** (reasoning for age estimation).
+
+---
+
+## 🚀 How to Use
+
+### 1. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+Or manually install:
+
+```bash
+pip install torch torchvision transformers accelerate peft bitsandbytes sentencepiece tiktoken scikit-image imageio SimpleITK seaborn qwen-vl-utils[decord]
+```
+
+### 2. Run Training
+
+```python
+python dhcp_mllm_qwen2_vl_multiimage_github.py
+```
+
+> Model will automatically use LoRA to fine-tune the vision-language layers on your dHCP data.
+
+### 3. Inference & Visualization
+
+- Supports **both days and weeks** output unit
+- Generates explanations with structured output:
+  ```
+  Predicted Gestational Age: 269.5
+  Explanation: [model-generated rationale]
+  ```
+
+---
+
+## 📦 Fine-tuned Model
+
+**📍 HuggingFace Model Hub:**  
+👉 [Jimcui0508/qwen2.5-7b-vl-gestational-age-predictor](https://huggingface.co/Jimcui0508/qwen2.5-7b-vl-gestational-age-predictor)
+
+You can load the model via:
+
+```python
+from transformers import AutoProcessor, Qwen2_5_VLForConditionalGeneration
+
+model = Qwen2_5_VLForConditionalGeneration.from_pretrained(
+    "Jimcui0508/qwen2.5-7b-vl-gestational-age-predictor",
+    trust_remote_code=True
+)
+processor = AutoProcessor.from_pretrained("Jimcui0508/qwen2.5-7b-vl-gestational-age-predictor", trust_remote_code=True)
+```
+
+---
+
+## 🧠 Example Prompt for Inference
+
+```python
+"You are provided with four 2D projection maps from a neonatal brain MRI scan. 
+These represent, in order: Image 1: cortical thickness, Image 2: cortical curvature, 
+Image 3: cortical myelination, and Image 4: sulcal depth. 
+Based on these four images, please first predict the gestational age at the time of the scan (in days or weeks)."
+```
+
+---
+
+## 📁 Project Structure
+
+```
+├── dhcp_mllm_qwen2_vl_multiimage_github.py  # Main training + inference script
+├── /data
+│   ├── 2D_projection_L_sub-XXX.npy          # Cortical feature projections
+│   └── meta_2022_pma.pkl                    # Labels and metadata
+└── requirements.txt                         # Optional: dependencies
+```
+
+---
+
+
