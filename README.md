@@ -79,24 +79,6 @@ python dhcp_mllm_qwen2_vl_multiimage_github.py
 
 ---
 
-## 📦 Fine-tuned Model
-
-**📍 HuggingFace Model Hub:**  
-👉 [Jimcui0508/qwen2.5-7b-vl-gestational-age-predictor](https://huggingface.co/Jimcui0508/qwen2.5-7b-vl-gestational-age-predictor)
-
-You can load the model via:
-
-```python
-from transformers import AutoProcessor, Qwen2_5_VLForConditionalGeneration
-
-model = Qwen2_5_VLForConditionalGeneration.from_pretrained(
-    "Jimcui0508/qwen2.5-7b-vl-gestational-age-predictor",
-    trust_remote_code=True
-)
-processor = AutoProcessor.from_pretrained("Jimcui0508/qwen2.5-7b-vl-gestational-age-predictor", trust_remote_code=True)
-```
-
----
 
 ## 🧠 Example Prompt for Inference
 
