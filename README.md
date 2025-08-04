@@ -1,11 +1,11 @@
 
-# 🧠 MLLM for Gestational Age Prediction (dHCP)
+# 🧠 MLLM for Postmenstrual Age Prediction (dHCP)
 
-This repository contains code and workflows for **fine-tuning Qwen2.5-VL (7B)** to **predict gestational age (in days or weeks)** based on **neonatal brain MRI cortical feature projections**, using data from the [developing Human Connectome Project (dHCP)](http://www.developingconnectome.org/project/).
+This repository contains code and workflows for **fine-tuning Qwen2.5-VL (7B)** to **predict postmenstrual age (in days or weeks)** based on **neonatal brain MRI cortical feature projections**, using data from the [developing Human Connectome Project (dHCP)](http://www.developingconnectome.org/project/).
 
 ## 🔬 Task Description
 
-We aim to **predict gestational age at the time of scan** from four 2D projected cortical feature maps extracted from neonatal brain MRIs:
+We aim to **predict postmenstrual age at the time of scan** from four 2D projected cortical feature maps extracted from neonatal brain MRIs:
 
 1. **Cortical Thickness**
 2. **Cortical Curvature**
@@ -20,7 +20,7 @@ These maps are stacked into 4-channel inputs and provided to a multi-modal LLM (
 
 - **Source**: Developing Human Connectome Project (dHCP)
 - **Inputs**: 2D cortical feature maps (240×320×4, `.npy` format)
-- **Labels**: Gestational Age at scan (in days or weeks)
+- **Labels**: Postmenstrual Age at scan (in days or weeks)
 - **Metadata**: Provided via a `meta_2022_pma.pkl` DataFrame
 
 ---
