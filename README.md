@@ -1,0 +1,2 @@
+# Accurate-and-Interpretable-Postmenstrual-Age-Prediction
+In this work, we address the dual challenge of accuracy and interpretability by adapting a multimodal large language model to perform both precise PMA prediction and clinical-relevant explanation generation. We introduce a parameter-efficient fine-tuning strategy using Instruction Tuning and Low-Rank Adaptation applied to the Qwen2.5-VL-7B model. 
