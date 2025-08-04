@@ -1,5 +1,5 @@
 
-# 🧠 Qwen2.5-VL for Gestational Age Prediction (dHCP)
+# 🧠 MLLM for Gestational Age Prediction (dHCP)
 
 This repository contains code and workflows for **fine-tuning Qwen2.5-VL (7B)** to **predict gestational age (in days or weeks)** based on **neonatal brain MRI cortical feature projections**, using data from the [developing Human Connectome Project (dHCP)](http://www.developingconnectome.org/project/).
 
